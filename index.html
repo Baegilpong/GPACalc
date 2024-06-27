@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA Calculator</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <h1>GPA Calculator</h1>
+        <table id="coursesTable">
+            <tr>
+                <th>Course</th>
+                <th>Grade</th>
+                <th>Credits</th>
+            </tr>
+            <tr>
+                <td>Course #1</td>
+                <td><input type="text" class="grade-input" id="grade1"></td>
+                <td><input type="number" class="credit-input" id="credit1"></td>
+            </tr>
+            <tr>
+                <td>Course #2</td>
+                <td><input type="text" class="grade-input" id="grade2"></td>
+                <td><input type="number" class="credit-input" id="credit2"></td>
+            </tr>
+            <tr>
+                <td>Course #3</td>
+                <td><input type="text" class="grade-input" id="grade3"></td>
+                <td><input type="number" class="credit-input" id="credit3"></td>
+            </tr>
+            <tr>
+                <td>Course #4</td>
+                <td><input type="text" class="grade-input" id="grade4"></td>
+                <td><input type="number" class="credit-input" id="credit4"></td>
+            </tr>
+            <tr>
+                <td>Course #5</td>
+                <td><input type="text" class="grade-input" id="grade5"></td>
+                <td><input type="number" class="credit-input" id="credit5"></td>
+            </tr>
+            <tr>
+                <td>Course #6</td>
+                <td><input type="text" class="grade-input" id="grade6"></td>
+                <td><input type="number" class="credit-input" id="credit6"></td>
+            </tr>
+            <tr>
+                <td>Course #7</td>
+                <td><input type="text" class="grade-input" id="grade7"></td>
+                <td><input type="number" class="credit-input" id="credit7"></td>
+            </tr>
+            <tr>
+                <td>Course #8</td>
+                <td><input type="text" class="grade-input" id="grade8"></td>
+                <td><input type="number" class="credit-input" id="credit8"></td>
+            </tr>
+        </table>
+        <button class="calculate-button" onclick="calculateGPA()">Calculate</button>
+        <button class="reset-button" onclick="resetFields()">Reset</button>
+        <h2>GPA: <span id="gpa">--</span></h2>
+    </div>
+    <script>
+        const gradeToPoint = {
+            'A': 4.0,
+            'B+': 3.5,
+            'B': 3.0,
+            'C+': 2.5,
+            'C': 2.0,
+            'D': 1.0,
+            'F': 0.0
+        };
+
+        function calculateGPA() {
+            let totalPoints = 0;
+            let totalCredits = 0;
+
+            for (let i = 1; i <= 8; i++) {
+                let grade = document.getElementById(`grade${i}`).value.toUpperCase();
+                let credits = parseFloat(document.getElementById(`credit${i}`).value);
+
+                if (grade && !isNaN(credits)) {
+                    grade = grade.replace(/A\+|A\-|A/, 'A')
+                                 .replace(/B\+|B\-|B/, 'B')
+                                 .replace(/C\+|C\-|C/, 'C')
+                                 .replace(/D\+|D\-|D/, 'D');
+                    if (gradeToPoint.hasOwnProperty(grade)) {
+                        totalPoints += gradeToPoint[grade] * credits;
+                        totalCredits += credits;
+                    } else {
+                        alert(`Invalid grade input for Course #${i}`);
+                        return;
+                    }
+                }
+            }
+
+            if (totalCredits === 0) {
+                alert("Please enter valid credits.");
+                return;
+            }
+
+            let gpa = totalPoints / totalCredits;
+            document.getElementById('gpa').innerText = gpa.toFixed(2);
+        }
+
+        function resetFields() {
+            for (let i = 1; i <= 8; i++) {
+                document.getElementById(`grade${i}`).value = '';
+                document.getElementById(`credit${i}`).value = '';
+            }
+            document.getElementById('gpa').innerText = '--';
+        }
+    </script>
+</body>
+</html>
